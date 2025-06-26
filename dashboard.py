@@ -61,19 +61,23 @@ weather_mapping = {
 }
 day_df['weathersit'] = day_df['weathersit'].map(weather_mapping)
 
+# Hitung rata-rata jumlah penyewa berdasarkan musim dan cuaca
+agg_weather = day_df.groupby(['season', 'weathersit'])['cnt'].mean().reset_index()
+
+# Visualisasi sebagai grouped bar chart
 fig2, ax2 = plt.subplots(figsize=(12, 6))
-sns.boxplot(
-    data=day_df, 
+sns.barplot(
+    data=agg_weather, 
     x="season", 
     y="cnt", 
-    hue="weathersit",
-    palette="Set2",
+    hue="weathersit", 
+    palette="Set2", 
     ax=ax2
 )
 
-ax2.set_title("Pengaruh Cuaca terhadap Jumlah Penyewa Sepeda Berdasarkan Musim")
+ax2.set_title("Rata-rata Jumlah Penyewa Sepeda Berdasarkan Musim dan Kondisi Cuaca")
 ax2.set_xlabel("Musim")
-ax2.set_ylabel("Jumlah Penyewa Sepeda")
+ax2.set_ylabel("Rata-rata Jumlah Penyewa")
 ax2.legend(title="Kondisi Cuaca")
 ax2.grid(axis="y")
 
